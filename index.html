@@ -823,6 +823,45 @@
 (function () {
   "use strict";
 
+  // Apps Script Web App /exec URL (Deploy > New deployment > Web app,
+  // Execute as: Me, Who has access: Anyone). Redeploy after backend changes.
+  var CLINIC_APP_URL = "https://script.google.com/macros/s/AKfycby13bZcAdUGnwB7V__-NBOjJyWjpIKPchlAwVjJCCaDinGLixLhcMfDT8jZhLFo38SN/exec";
+
+  /**
+   * Cross-origin call to the Apps Script backend via JSONP, since Apps
+   * Script web apps cannot set CORS headers for fetch()/XHR to read.
+   */
+  function submitLeadJsonp(params, onDone) {
+    var callbackName = "smileCareLeadCb_" + Date.now();
+    var script = document.createElement("script");
+    var timeoutId = setTimeout(function () {
+      cleanup();
+      onDone({ ok: false, message: "The request timed out. Please try again or call us." });
+    }, 10000);
+
+    function cleanup() {
+      clearTimeout(timeoutId);
+      delete window[callbackName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+
+    window[callbackName] = function (payload) {
+      cleanup();
+      onDone(payload);
+    };
+
+    var query = Object.keys(params).map(function (key) {
+      return encodeURIComponent(key) + "=" + encodeURIComponent(params[key] || "");
+    }).join("&");
+
+    script.src = CLINIC_APP_URL + "?action=submitLead&callback=" + callbackName + "&" + query;
+    script.onerror = function () {
+      cleanup();
+      onDone({ ok: false, message: "Could not reach the booking service. Please call us instead." });
+    };
+    document.body.appendChild(script);
+  }
+
   /* ============ Mobile Navigation ============ */
   function initNav() {
     var toggle = document.getElementById("navToggle");
@@ -892,12 +931,26 @@
         return;
       }
 
-      /* NOTE: No backend configured yet — this is a placeholder success state.
-         Replace with actual form submission (e.g., email service, backend API)
-         before production launch. */
-      status.classList.add("is-success");
-      status.textContent = "Thank you! Your request has been received. We will contact you shortly to confirm your appointment.";
-      form.reset();
+      var submitBtn = form.querySelector('button[type="submit"]');
+      var serviceSelect = document.getElementById("service");
+      var serviceLabel = serviceSelect.selectedIndex > 0 ? serviceSelect.options[serviceSelect.selectedIndex].text : "";
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+
+      submitLeadJsonp({
+        name: fullName.value.trim(),
+        phone: phone.value.trim(),
+        email: email.value.trim(),
+        service: serviceLabel,
+        message: document.getElementById("message").value.trim()
+      }, function (result) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Request Appointment";
+        status.classList.add(result.ok ? "is-success" : "is-error");
+        status.textContent = result.message;
+        if (result.ok) form.reset();
+      });
     });
   }
 
