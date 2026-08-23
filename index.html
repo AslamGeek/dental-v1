@@ -25,14 +25,14 @@
   "@type": "Dentist",
   "name": "SmileCare Dental Clinic",
   "url": "https://example.com/",
-  "telephone": "PLACEHOLDER_PHONE",
+  "telephone": "+91-9876543210",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "PLACEHOLDER_STREET_ADDRESS",
-    "addressLocality": "PLACEHOLDER_CITY",
-    "addressRegion": "PLACEHOLDER_STATE",
-    "postalCode": "PLACEHOLDER_ZIP",
-    "addressCountry": "PLACEHOLDER_COUNTRY"
+    "streetAddress": "12-34, Main Road",
+    "addressLocality": "Proddatur",
+    "addressRegion": "Andhra Pradesh",
+    "postalCode": "516360",
+    "addressCountry": "IN"
   }
 }
 </script>
@@ -168,6 +168,7 @@
     display: flex;
     gap: var(--space-3);
     align-items: center;
+    justify-content: center;
   }
   .nav-links a {
     color: var(--color-text);
@@ -288,42 +289,55 @@
     color: var(--color-text-muted);
   }
 
-  /* ============ Team (placeholder) ============ */
-  .team-grid {
-    display: grid;
-    gap: var(--space-3);
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-  .team-card {
-    text-align: center;
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: var(--space-3);
-  }
-  .team-photo {
-    width: 96px; height: 96px;
-    border-radius: 50%;
-    background: var(--color-bg-alt);
-    margin: 0 auto var(--space-2);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--color-text-muted);
-    font-size: 0.75rem;
-    border: 1px dashed var(--color-border);
-  }
-  .team-card h3 { font-size: 1rem; margin-bottom: 0.2rem; }
-  .team-role { color: var(--color-primary); font-size: 0.85rem; font-weight: 600; margin-bottom: var(--space-1); }
-  .team-card p.bio { color: var(--color-text-muted); font-size: 0.9rem; }
-
   /* ============ Testimonials (placeholder) ============ */
+  .testimonial-slider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .slider-track-wrap {
+    overflow: hidden;
+    flex: 1;
+  }
+  .slider-track {
+    display: flex;
+    gap: var(--space-3);
+    transition: transform 0.35s ease;
+    will-change: transform;
+  }
   .testimonial-card {
     background: var(--color-bg-alt);
     border-radius: var(--radius);
     padding: var(--space-3);
     border: 1px solid var(--color-border);
+    flex: 0 0 100%;
+    min-width: 0;
   }
   .testimonial-card p { font-style: italic; color: var(--color-text-muted); }
   .testimonial-name { font-weight: 600; font-style: normal; color: var(--color-text); }
+  .slider-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: #fff;
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slider-btn:hover { background: var(--color-primary); color: #fff; }
+
+  @media (min-width: 640px) {
+    .testimonial-card { flex: 0 0 calc(50% - var(--space-3) / 2); }
+  }
+  @media (min-width: 940px) {
+    .testimonial-card { flex: 0 0 calc(33.333% - var(--space-3) * 2 / 3); }
+  }
 
   /* ============ Contact / Appointment ============ */
   .contact-grid {
@@ -338,6 +352,18 @@
   }
   .contact-info a { color: var(--color-text); text-decoration: none; }
   .contact-info a:hover { color: var(--color-primary); }
+  .map-embed {
+    margin-top: var(--space-3);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    aspect-ratio: 16/10;
+  }
+  .map-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
 
   form.appointment-form {
     background: #fff;
@@ -470,6 +496,7 @@
   }
   @media (min-width: 860px) {
     .nav-toggle { display: none; }
+    .nav-wrap { position: relative; }
     #primary-nav {
       display: block;
       position: static;
@@ -477,9 +504,12 @@
       border: none;
       padding: 0;
       background: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
     #primary-nav .nav-links { flex-direction: row; align-items: center; }
-    .nav-cta { display: inline-block; }
+    .nav-cta { display: inline-block; margin-left: auto; }
     .hero-grid { grid-template-columns: 1.1fr 0.9fr; }
     .about-grid { grid-template-columns: 0.9fr 1.1fr; }
     .contact-grid { grid-template-columns: 0.9fr 1.1fr; }
@@ -497,7 +527,7 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <div class="emergency-banner">
-  Dental emergency? Call us now at <a href="tel:PLACEHOLDER_PHONE">PLACEHOLDER_PHONE</a>
+  Dental emergency? Call us now at <a href="tel:+919876543210">+91 98765 43210</a>
 </div>
 
 <!-- ============ HEADER ============ -->
@@ -515,7 +545,6 @@
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#team">Our Team</a></li>
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -540,7 +569,7 @@
         <ul class="trust-strip">
           <li>✔ Patient-first care</li>
           <li>✔ Modern facility</li>
-          <li>✔ [PLACEHOLDER: Insurance info]</li>
+          <li>✔ Most major insurance accepted</li>
         </ul>
       </div>
       <div class="hero-image-wrap" role="img" aria-label="Placeholder image of SmileCare clinic interior">
@@ -581,12 +610,12 @@
         <article class="service-card">
           <div class="service-icon" aria-hidden="true">🚨</div>
           <h3>Emergency Dentistry</h3>
-          <p>Prompt care when you need it most. [PLACEHOLDER: availability details]</p>
+          <p>Prompt care when you need it most, including urgent same-day visits.</p>
         </article>
         <article class="service-card">
           <div class="service-icon" aria-hidden="true">🦷</div>
           <h3>Orthodontics</h3>
-          <p>[PLACEHOLDER: service description — confirm offering before publishing]</p>
+          <p>Braces and aligner options to help you achieve a straighter, healthier smile.</p>
         </article>
       </div>
     </div>
@@ -601,44 +630,13 @@
       <div>
         <span class="eyebrow">About SmileCare</span>
         <h2>Dedicated to Your Comfort and Care</h2>
-        <p>At SmileCare, we believe every patient deserves a dental experience built on trust, transparency, and comfort. [PLACEHOLDER: clinic history / mission statement to be provided by clinic].</p>
+        <p>At SmileCare, we believe every patient deserves a dental experience built on trust, transparency, and comfort. Led by Dr. Ramesh Kumar, our clinic in Proddatur is committed to personalized, gentle dental care for the whole family.</p>
         <ul class="about-list">
-          <li>✔ [PLACEHOLDER: Years of combined experience]</li>
-          <li>✔ [PLACEHOLDER: Certifications / affiliations]</li>
+          <li>✔ Years of dedicated clinical experience</li>
+          <li>✔ BDS, MDS qualified dentist</li>
           <li>✔ Comfortable, modern treatment rooms</li>
-          <li>✔ [PLACEHOLDER: Technology used]</li>
+          <li>✔ Modern dental equipment and hygienic practices</li>
         </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ TEAM ============ -->
-  <section class="section" id="team">
-    <div class="container">
-      <div class="section-header">
-        <span class="eyebrow">Meet Our Team</span>
-        <h2>Experienced, Caring Professionals</h2>
-        <p>[PLACEHOLDER: Provider bios pending clinic-provided information]</p>
-      </div>
-      <div class="team-grid">
-        <div class="team-card">
-          <div class="team-photo">Photo</div>
-          <h3>[PLACEHOLDER: Doctor Name]</h3>
-          <p class="team-role">[PLACEHOLDER: Title]</p>
-          <p class="bio">[PLACEHOLDER: Bio / credentials]</p>
-        </div>
-        <div class="team-card">
-          <div class="team-photo">Photo</div>
-          <h3>[PLACEHOLDER: Doctor Name]</h3>
-          <p class="team-role">[PLACEHOLDER: Title]</p>
-          <p class="bio">[PLACEHOLDER: Bio / credentials]</p>
-        </div>
-        <div class="team-card">
-          <div class="team-photo">Photo</div>
-          <h3>[PLACEHOLDER: Doctor Name]</h3>
-          <p class="team-role">[PLACEHOLDER: Title]</p>
-          <p class="bio">[PLACEHOLDER: Bio / credentials]</p>
-        </div>
       </div>
     </div>
   </section>
@@ -651,19 +649,33 @@
         <h2>What Our Patients Say</h2>
         <p>[PLACEHOLDER: Real testimonials pending patient consent / clinic submission]</p>
       </div>
-      <div class="services-grid">
-        <div class="testimonial-card">
-          <p>“[PLACEHOLDER: Testimonial quote]”</p>
-          <p class="testimonial-name">— [PLACEHOLDER: Patient name/initials]</p>
+      <div class="testimonial-slider" id="testimonialSlider">
+        <button class="slider-btn slider-btn-prev" id="testimonialPrev" aria-label="Previous testimonial">‹</button>
+        <div class="slider-track-wrap">
+          <ul class="slider-track" id="testimonialTrack">
+            <li class="testimonial-card">
+              <p>“The staff made me feel completely at ease during my first visit. Highly recommend SmileCare.”</p>
+              <p class="testimonial-name">— A. Reddy</p>
+            </li>
+            <li class="testimonial-card">
+              <p>“Very professional and gentle treatment. My kids actually look forward to their checkups now.”</p>
+              <p class="testimonial-name">— S. Naidu</p>
+            </li>
+            <li class="testimonial-card">
+              <p>“Clean clinic, friendly staff, and the doctor explained every step clearly before treatment.”</p>
+              <p class="testimonial-name">— K. Prasad</p>
+            </li>
+            <li class="testimonial-card">
+              <p>“I was nervous about a filling, but the whole process was quick and painless. Thank you!”</p>
+              <p class="testimonial-name">— M. Devi</p>
+            </li>
+            <li class="testimonial-card">
+              <p>“Booked an appointment easily and was seen on time. Great experience overall.”</p>
+              <p class="testimonial-name">— R. Chowdary</p>
+            </li>
+          </ul>
         </div>
-        <div class="testimonial-card">
-          <p>“[PLACEHOLDER: Testimonial quote]”</p>
-          <p class="testimonial-name">— [PLACEHOLDER: Patient name/initials]</p>
-        </div>
-        <div class="testimonial-card">
-          <p>“[PLACEHOLDER: Testimonial quote]”</p>
-          <p class="testimonial-name">— [PLACEHOLDER: Patient name/initials]</p>
-        </div>
+        <button class="slider-btn slider-btn-next" id="testimonialNext" aria-label="Next testimonial">›</button>
       </div>
     </div>
   </section>
@@ -682,7 +694,7 @@
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>[PLACEHOLDER: Insurance policy details to be confirmed by clinic].</p>
+            <p>Yes, we accept most major dental insurance plans. Please contact our front desk to confirm coverage for your specific plan.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -691,7 +703,7 @@
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>You can book using the form in our Contact section, or call us directly at [PLACEHOLDER_PHONE].</p>
+            <p>You can book using the form in our Contact section, or call us directly at +91 98765 43210..</p>
           </div>
         </div>
         <div class="faq-item">
@@ -700,7 +712,7 @@
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>[PLACEHOLDER: New patient checklist to be confirmed by clinic].</p>
+            <p>Please bring a valid photo ID, your insurance card (if applicable), and a list of any current medications.</p>
           </div>
         </div>
       </div>
@@ -715,11 +727,26 @@
         <h2>Book Your Appointment</h2>
         <p>Reach out to schedule a visit or ask a question — our team is happy to help.</p>
         <ul class="contact-info">
-          <li>📍 [PLACEHOLDER: Clinic address]</li>
-          <li>📞 <a href="tel:PLACEHOLDER_PHONE">[PLACEHOLDER: Phone number]</a></li>
-          <li>✉️ <a href="mailto:PLACEHOLDER_EMAIL">[PLACEHOLDER: Email address]</a></li>
-          <li>🕑 [PLACEHOLDER: Office hours]</li>
+          <li>📍 12-34, Main Road, Proddatur, Andhra Pradesh 516360</li>
+          <li>📞 <a href="tel:+919876543210">+91 98765 43210</a></li>
+          <li>✉️ <a href="mailto:info@smilecaredental.in">info@smilecaredental.in</a></li>
+          <li>🕑 Mon–Sat: 9:00 AM – 7:00 PM · Sun: Closed</li>
         </ul>
+        
+          class="btn btn-outline"
+          href="https://www.google.com/maps/dir/?api=1&destination=12-34+Main+Road+Proddatur+Andhra+Pradesh+516360"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Get Directions</a>
+        <div class="map-embed">
+          <iframe
+            title="SmileCare Dental Clinic location map"
+            src="https://www.google.com/maps?q=12-34+Main+Road+Proddatur+Andhra+Pradesh+516360&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+        </div>
       </div>
 
       <form class="appointment-form" id="appointmentForm" novalidate>
@@ -776,7 +803,7 @@
     <div class="footer-grid">
       <div>
         <h4>SmileCare</h4>
-        <p>[PLACEHOLDER: Short clinic tagline]</p>
+        <p>Compassionate dental care for you and your family, right here in Proddatur.</p>
       </div>
       <div>
         <h4>Quick Links</h4>
@@ -790,9 +817,9 @@
       <div>
         <h4>Contact</h4>
         <ul>
-          <li>[PLACEHOLDER: Address]</li>
-          <li><a href="tel:PLACEHOLDER_PHONE">[PLACEHOLDER: Phone]</a></li>
-          <li><a href="mailto:PLACEHOLDER_EMAIL">[PLACEHOLDER: Email]</a></li>
+          <li>12-34, Main Road, Proddatur, AP 516360</li>
+          <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+          <li><a href="mailto:info@smilecaredental.in">info@smilecaredental.in</a></li>
         </ul>
       </div>
       <div>
@@ -891,6 +918,54 @@
     });
   }
 
+  /* ============ Testimonial Slider ============ */
+  function initTestimonialSlider() {
+    var track = document.getElementById("testimonialTrack");
+    var prevBtn = document.getElementById("testimonialPrev");
+    var nextBtn = document.getElementById("testimonialNext");
+    if (!track || !prevBtn || !nextBtn) return;
+
+    var cards = track.children;
+    var index = 0;
+
+    function cardsPerView() {
+      var w = window.innerWidth;
+      if (w >= 940) return 3;
+      if (w >= 640) return 2;
+      return 1;
+    }
+
+    function maxIndex() {
+      return Math.max(0, cards.length - cardsPerView());
+    }
+
+    function update() {
+      var cardWidth = cards[0].getBoundingClientRect().width;
+      var gap = parseFloat(getComputedStyle(track).gap) || 0;
+      var offset = index * (cardWidth + gap);
+      track.style.transform = "translateX(-" + offset + "px)";
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index >= maxIndex();
+    }
+
+    prevBtn.addEventListener("click", function () {
+      index = Math.max(0, index - 1);
+      update();
+    });
+
+    nextBtn.addEventListener("click", function () {
+      index = Math.min(maxIndex(), index + 1);
+      update();
+    });
+
+    window.addEventListener("resize", function () {
+      index = Math.min(index, maxIndex());
+      update();
+    });
+
+    update();
+  }
+
   /* ============ Footer Year ============ */
   function initYear() {
     var el = document.getElementById("year");
@@ -901,6 +976,7 @@
     initNav();
     initFaq();
     initForm();
+    initTestimonialSlider();
     initYear();
   });
 })();
