@@ -499,14 +499,14 @@
     .nav-wrap { position: relative; }
     #primary-nav {
       display: block;
-      position: static;
       box-shadow: none;
       border: none;
       padding: 0;
       background: none;
       position: absolute;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
     }
     #primary-nav .nav-links { flex-direction: row; align-items: center; }
     .nav-cta { display: inline-block; margin-left: auto; }
@@ -569,7 +569,15 @@
         <ul class="trust-strip">
           <li>✔ Patient-first care</li>
           <li>✔ Modern facility</li>
-          <li>✔ Most major insurance accepted</li>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Do you accept dental insurance?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, we accept most major dental insurance plans. Please contact our front desk to confirm coverage for your specific plan.</p>
+          </div>
+        </div>
         </ul>
       </div>
       <div class="hero-image-wrap" role="img" aria-label="Placeholder image of SmileCare clinic interior">
