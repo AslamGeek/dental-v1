@@ -16,7 +16,7 @@
 <meta property="og:image" content="assets/og-image.jpg">
 
 <!-- Favicon placeholder -->
-<link rel="icon" href="data:,">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='2' y='19' font-size='20'%3E%F0%9F%A6%B7%3C/text%3E%3C/svg%3E">
 
 <!-- Structured Data (placeholder values clearly marked) -->
 <script type="application/ld+json">
@@ -178,7 +178,13 @@
   }
   .nav-links a:hover { color: var(--color-primary); }
 
-  .nav-cta { display: none; }
+  .nav-cta-desktop {
+    display: none;
+    color: #fff;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.9rem;
+  }
+  .nav-cta-mobile { color: #fff; }
 
   .nav-toggle {
     display: inline-flex;
@@ -480,16 +486,6 @@
     font-size: 0.8rem;
   }
 
-  /* ============ Emergency banner ============ */
-  .emergency-banner {
-    background: var(--color-danger);
-    color: #fff;
-    text-align: center;
-    font-size: 0.85rem;
-    padding: 0.55rem var(--space-2);
-  }
-  .emergency-banner a { color: #fff; font-weight: 700; text-decoration: underline; }
-
   /* ============ Responsive breakpoints ============ */
   @media (min-width: 640px) {
     .hero-actions .btn { flex: none; }
@@ -509,7 +505,8 @@
       transform: translate(-50%, -50%);
     }
     #primary-nav .nav-links { flex-direction: row; align-items: center; }
-    .nav-cta { display: inline-block; margin-left: auto; }
+    .nav-cta-mobile { display: none; }
+    .nav-cta-desktop { display: inline-block; }
     .hero-grid { grid-template-columns: 1.1fr 0.9fr; }
     .about-grid { grid-template-columns: 0.9fr 1.1fr; }
     .contact-grid { grid-template-columns: 0.9fr 1.1fr; }
@@ -526,9 +523,7 @@
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<div class="emergency-banner">
-  Dental emergency? Call us now at <a href="tel:+919876543210">+91 98765 43210</a>
-</div>
+
 
 <!-- ============ HEADER ============ -->
 <header class="site-header">
@@ -548,9 +543,11 @@
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="#contact" class="btn btn-primary nav-cta">Book Appointment</a></li>
+        <li><a href="#contact" class="btn btn-primary nav-cta-mobile">Book Appointment</a></li>
       </ul>
     </nav>
+
+    <a href="#contact" class="btn btn-primary nav-cta-desktop">Book Appointment</a>
   </div>
 </header>
 
@@ -702,7 +699,7 @@
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>Please bring a valid photo ID, your insurance card (if applicable), and a list of any current medications.</p>
+            <p>Please bring a valid photo ID, and a list of any current medications.</p>
           </div>
         </div>
       </div>
@@ -724,8 +721,7 @@
         </ul>
         
           class="btn btn-outline"
-          href="https://www.google.com/maps/dir/?api=1&destination=12-34+Main+Road+Proddatur+Andhra+Pradesh+516360"
-          target="_blank"
+          href="https://www.google.com/maps/dir/?api=1&amp;destination=12-34+Main+Road%2C+Proddatur%2C+Andhra+Pradesh+516360"          target="_blank"
           rel="noopener noreferrer"
         >Get Directions</a>
         <div class="map-embed">
