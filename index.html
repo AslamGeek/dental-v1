@@ -735,15 +735,15 @@
       <form class="appointment-form" id="appointmentForm" novalidate>
         <h3 class="visually-hidden">Appointment request form</h3>
 
-        <div class="form-row">
+          <div class="form-row">
           <label for="fullName">Full Name</label>
-          <input type="text" id="fullName" name="fullName" autocomplete="name" required>
+          <input type="text" id="fullName" name="fullName" autocomplete="name" maxlength="100" required>
           <span class="form-error" id="fullNameError">Please enter your full name.</span>
         </div>
 
-         <div class="form-row">
+        <div class="form-row">
           <label for="email">Email (optional)</label>
-          <input type="email" id="email" name="email" autocomplete="email">
+          <input type="email" id="email" name="email" autocomplete="email" maxlength="150">
           <span class="form-error" id="emailError">Please enter a valid email address.</span>
         </div>
 
@@ -768,7 +768,19 @@
 
         <div class="form-row">
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="4"></textarea>
+          <textarea id="message" name="message" rows="4" maxlength="1000"></textarea>
+        </div>
+
+        <!-- Honeypot: hidden from real users via CSS + tabindex/autocomplete off; bots that auto-fill every field will populate this. -->
+        <div class="form-row" style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+          <label for="website">Leave this field empty</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="form-row">
+          <label for="captchaAnswer" id="captchaLabel">Verification: loading…</label>
+          <input type="text" id="captchaAnswer" name="captchaAnswer" inputmode="numeric" autocomplete="off" required>
+          <span class="form-error" id="captchaError">Please answer the verification question correctly.</span>
         </div>
 
         <button type="submit" class="btn btn-primary" style="width:100%;">Request Appointment</button>
@@ -827,6 +839,27 @@
   // Execute as: Me, Who has access: Anyone). Redeploy after backend changes.
   var CLINIC_APP_URL = "https://script.google.com/macros/s/AKfycbz4bw5uhesmHKXZwGEE1YLlEd3rZBTmkUFVtfTgGZF4-XWwfdDVdC3wans3qjNkk-1d/exec";
 
+  var currentCaptcha = null;
+
+  function loadCaptcha() {
+    var label = document.getElementById("captchaLabel");
+    var callbackName = "smileCareCaptchaCb_" + Date.now();
+    var script = document.createElement("script");
+
+    window[callbackName] = function (challenge) {
+      currentCaptcha = challenge;
+      label.textContent = "Verification: What is " + challenge.a + " + " + challenge.b + "?";
+      delete window[callbackName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+
+    script.onerror = function () {
+      label.textContent = "Verification: unavailable — please refresh the page.";
+    };
+    script.src = CLINIC_APP_URL + "?action=getCaptcha&callback=" + callbackName;
+    document.body.appendChild(script);
+  }
+  
   /**
    * Cross-origin call to the Apps Script backend via JSONP, since Apps
    * Script web apps cannot set CORS headers for fetch()/XHR to read.
@@ -918,14 +951,18 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      var captchaInput = document.getElementById("captchaAnswer");
       var validName = validateField(fullName, "fullNameError", function (v) { return v.length > 1; });
       var validEmail = validateField(email, "emailError", function (v) { return v === "" || emailPattern.test(v); });
       var validPhone = validateField(phone, "phoneError", function (v) { return phonePattern.test(v); });
+      var validCaptcha = validateField(captchaInput, "captchaError", function (v) {
+        return !!currentCaptcha && Number(v) === (currentCaptcha.a + currentCaptcha.b);
+      });
 
       status.className = "form-status";
       status.textContent = "";
 
-      if (!validName || !validEmail || !validPhone) {
+      if (!validName || !validEmail || !validPhone || !validCaptcha) {
         status.classList.add("is-error");
         status.textContent = "Please correct the highlighted fields and try again.";
         return;
@@ -943,13 +980,20 @@
         phone: phone.value.trim(),
         email: email.value.trim(),
         service: serviceLabel,
-        message: document.getElementById("message").value.trim()
+        message: document.getElementById("message").value.trim(),
+        website: document.getElementById("website").value,
+        captchaA: currentCaptcha.a,
+        captchaB: currentCaptcha.b,
+        captchaExpires: currentCaptcha.expiresAt,
+        captchaSig: currentCaptcha.signature,
+        captchaAnswer: captchaInput.value.trim()
       }, function (result) {
         submitBtn.disabled = false;
         submitBtn.textContent = "Request Appointment";
         status.classList.add(result.ok ? "is-success" : "is-error");
         status.textContent = result.message;
         if (result.ok) form.reset();
+        loadCaptcha(); // fresh challenge for next attempt — old one is single-use in practice
       });
     });
   }
@@ -1014,6 +1058,7 @@
     initForm();
     initTestimonialSlider();
     initYear();
+    loadCaptcha();
   });
 })();
 </script>
