@@ -741,9 +741,9 @@
           <span class="form-error" id="fullNameError">Please enter your full name.</span>
         </div>
 
-        <div class="form-row">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" autocomplete="email" required>
+         <div class="form-row">
+          <label for="email">Email (optional)</label>
+          <input type="email" id="email" name="email" autocomplete="email">
           <span class="form-error" id="emailError">Please enter a valid email address.</span>
         </div>
 
@@ -919,7 +919,7 @@
       e.preventDefault();
 
       var validName = validateField(fullName, "fullNameError", function (v) { return v.length > 1; });
-      var validEmail = validateField(email, "emailError", function (v) { return emailPattern.test(v); });
+      var validEmail = validateField(email, "emailError", function (v) { return v === "" || emailPattern.test(v); });
       var validPhone = validateField(phone, "phoneError", function (v) { return phonePattern.test(v); });
 
       status.className = "form-status";
