@@ -13,7 +13,7 @@
 <meta property="og:title" content="SmileCare Dental Clinic">
 <meta property="og:description" content="Modern, trustworthy dental care for you and your family.">
 <meta property="og:url" content="https://example.com/">
-<meta property="og:image" content="https://example.com/assets/og-image.jpg">
+<meta property="og:image" content="https://example.com/assets/hero-banner.webp">
 
 <!-- Favicon placeholder -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='2' y='19' font-size='20'%3E%F0%9F%A6%B7%3C/text%3E%3C/svg%3E">
@@ -149,6 +149,46 @@
     background: rgba(255,255,255,0.96);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--color-border);
+    transform: translateY(0);
+    transition: transform 0.25s ease;
+  }
+  .site-header.is-hidden { transform: translateY(-100%); }
+
+  .floating-actions {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: flex;
+    gap: 1px;
+    background: var(--color-border);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.12);
+    transform: translateY(0);
+    transition: transform 0.25s ease;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .floating-actions.is-hidden { transform: translateY(100%); }
+  .floating-actions a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: #fff;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.85rem 0.5rem;
+  }
+  .floating-actions a.fa-call { color: var(--color-primary); }
+  .floating-actions a.fa-whatsapp { color: #1e8e5a; }
+  .floating-actions a.fa-book { background: var(--color-primary); color: #fff; }
+  .floating-actions svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  @media (min-width: 860px) {
+    .floating-actions { display: none; }
   }
   .nav-wrap {
     display: flex;
@@ -231,17 +271,9 @@
   .hero-lead { font-size: 1.1rem; color: var(--color-text-muted); max-width: 46ch; }
   .hero-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: var(--space-3); }
   .hero-image-wrap {
-    background: var(--color-bg-alt);
     border-radius: var(--radius);
     aspect-ratio: 4/3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-muted);
-    border: 1px dashed var(--color-border);
-    font-size: 0.9rem;
-    text-align: center;
-    padding: var(--space-2);
+    overflow: hidden;
   }
   .trust-strip {
     display: flex;
@@ -513,6 +545,10 @@
     .contact-grid { grid-template-columns: 0.9fr 1.1fr; }
   }
 
+  @media (max-width: 859px) {
+    body { padding-bottom: 58px; }
+  }
+
   /* ============ Reduced motion ============ */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -552,6 +588,20 @@
   </div>
 </header>
 
+<div class="floating-actions" id="floatingActions">
+  <a class="fa-call" href="tel:+919876543210">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5C3 14.0604 9.93959 21 18.5 21C18.8862 21 19.2691 20.9859 19.6483 20.9581C20.0834 20.9262 20.3009 20.9103 20.499 20.7963C20.663 20.7019 20.8185 20.5345 20.9007 20.364C21 20.1582 21 19.9181 21 19.438V16.6207C21 16.2169 21 16.015 20.9335 15.842C20.8749 15.6891 20.7795 15.553 20.6559 15.4456C20.516 15.324 20.3262 15.255 19.9468 15.117L16.74 13.9509C16.2985 13.7904 16.0777 13.7101 15.8683 13.7237C15.6836 13.7357 15.5059 13.7988 15.3549 13.9058C15.1837 14.0271 15.0629 14.2285 14.8212 14.6314L14 16C11.3501 14.7999 9.2019 12.6489 8 10L9.36863 9.17882C9.77145 8.93713 9.97286 8.81628 10.0942 8.64506C10.2012 8.49408 10.2643 8.31637 10.2763 8.1317C10.2899 7.92227 10.2096 7.70153 10.0491 7.26005L8.88299 4.05321C8.745 3.67376 8.67601 3.48403 8.55442 3.3441C8.44701 3.22049 8.31089 3.12515 8.15802 3.06645C7.98496 3 7.78308 3 7.37932 3H4.56201C4.08188 3 3.84181 3 3.63598 3.09925C3.4655 3.18146 3.29814 3.33701 3.2037 3.50103C3.08968 3.69907 3.07375 3.91662 3.04189 4.35173C3.01413 4.73086 3 5.11378 3 5.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Call
+  </a>
+  <a class="fa-whatsapp" href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="700 360 48 48" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path d="M723.993033,360 C710.762252,360 700,370.765287 700,383.999801 C700,389.248451 701.692661,394.116025 704.570026,398.066947 L701.579605,406.983798 L710.804449,404.035539 C714.598605,406.546975 719.126434,408 724.006967,408 C737.237748,408 748,397.234315 748,384.000199 C748,370.765685 737.237748,360.000398 724.006967,360.000398 L723.993033,360 L723.993033,360 Z M717.29285,372.190836 C716.827488,371.07628 716.474784,371.034071 715.769774,371.005401 C715.529728,370.991464 715.262214,370.977527 714.96564,370.977527 C714.04845,370.977527 713.089462,371.245514 712.511043,371.838033 C711.806033,372.557577 710.056843,374.23638 710.056843,377.679202 C710.056843,381.122023 712.567571,384.451756 712.905944,384.917648 C713.258648,385.382743 717.800808,392.55031 724.853297,395.471492 C730.368379,397.757149 732.00491,397.545307 733.260074,397.27732 C735.093658,396.882308 737.393002,395.527239 737.971421,393.891043 C738.54984,392.25405 738.54984,390.857171 738.380255,390.560912 C738.211068,390.264652 737.745308,390.095816 737.040298,389.742615 C736.335288,389.389811 732.90737,387.696673 732.25849,387.470894 C731.623543,387.231179 731.017259,387.315995 730.537963,387.99333 C729.860819,388.938653 729.198006,389.89831 728.661785,390.476494 C728.238619,390.928051 727.547144,390.984595 726.969123,390.744481 C726.193254,390.420348 724.021298,389.657798 721.340985,387.273388 C719.267356,385.42535 717.856938,383.125756 717.448104,382.434484 C717.038871,381.729275 717.405907,381.319529 717.729948,380.938852 C718.082653,380.501232 718.421026,380.191036 718.77373,379.781688 C719.126434,379.372738 719.323884,379.160897 719.549599,378.681068 C719.789645,378.215575 719.62006,377.735746 719.450874,377.382942 C719.281687,377.030139 717.871269,373.587317 717.29285,372.190836 Z"/></g></svg>
+    WhatsApp
+  </a>
+  <a class="fa-book" href="#contact">
+    Book
+  </a>
+</div>
+
 <main id="main-content">
 
   <!-- ============ HERO ============ -->
@@ -569,8 +619,8 @@
           <li>✔ Modern facility</li>
         </ul>
       </div>
-      <div class="hero-image-wrap" role="img" aria-label="Placeholder image of SmileCare clinic interior">
-        [Clinic image placeholder]
+      <div class="hero-image-wrap">
+        <img src="assets/hero-banner.webp" alt="Bright, modern treatment room at SmileCare Dental Clinic" width="800" height="600" loading="eager" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius);">
       </div>
     </div>
   </section>
@@ -621,8 +671,8 @@
   <!-- ============ ABOUT ============ -->
   <section class="section section-alt" id="about">
     <div class="container about-grid">
-      <div class="hero-image-wrap" role="img" aria-label="Placeholder image of SmileCare team">
-        [Team image placeholder]
+      <div class="hero-image-wrap">
+        <img src="assets/clinic-internal.webp" alt="Inside SmileCare Dental Clinic's reception and treatment area" width="800" height="600" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius);">
       </div>
       <div>
         <span class="eyebrow">About SmileCare</span>
@@ -837,7 +887,7 @@
 
   // Apps Script Web App /exec URL (Deploy > New deployment > Web app,
   // Execute as: Me, Who has access: Anyone). Redeploy after backend changes.
-  var CLINIC_APP_URL = "https://script.google.com/macros/s/AKfycbwSZZygnDAnojdQm_QzOZcCj2BraVsyQ14r4uJ76Ogin5uoGVnytkMpFE1-oUInJXPa/exec";
+  var CLINIC_APP_URL = "https://script.google.com/macros/s/AKfycbza7-GzhJM1r0Azk6a5tWHesYj5Gaa9pjzqrF4LegswNKlPq35k_t7wHShWerADm0oU/exec";
 
   var currentCaptcha = null;
 
@@ -1052,6 +1102,46 @@
     if (el) el.textContent = new Date().getFullYear();
   }
 
+  /* ============ Hide-on-scroll-down / show-on-scroll-up ============ */
+  function initScrollHide() {
+    var header = document.querySelector(".site-header");
+    var floatingBar = document.getElementById("floatingActions");
+    if (!header) return;
+
+    var lastY = window.pageYOffset;
+    var ticking = false;
+    var minDelta = 6; // ignore tiny/jittery scroll movements
+    var revealThreshold = 80; // always show near the very top of the page
+
+    function applyState(hidden) {
+      header.classList.toggle("is-hidden", hidden);
+      if (floatingBar) floatingBar.classList.toggle("is-hidden", hidden);
+    }
+
+    function onScroll() {
+      var currentY = Math.max(0, window.pageYOffset);
+      var delta = currentY - lastY;
+
+      if (currentY <= revealThreshold) {
+        applyState(false);
+      } else if (delta > minDelta) {
+        applyState(true); // scrolling down -> hide
+      } else if (delta < -minDelta) {
+        applyState(false); // scrolling up -> show
+      }
+
+      lastY = currentY;
+      ticking = false;
+    }
+
+    window.addEventListener("scroll", function () {
+      if (!ticking) {
+        window.requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
     initFaq();
@@ -1059,6 +1149,7 @@
     initTestimonialSlider();
     initYear();
     loadCaptcha();
+    initScrollHide();
   });
 })();
 </script>
